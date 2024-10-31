@@ -24,8 +24,8 @@ Runs the server in development mode
 The server runs by default at http://localhost:3000
 
 You can test the following endpoints:
-POST /api/user/register: Registro de un nuevo usuario.
-POST /api/user/login: Inicio de sesión de un usuario.
-GET /api/user/logout: Cierre de sesión de un usuario.
-PUT /api/user/update: Actualización de datos del usuario.
-DELETE /api/user/delete: Eliminación de un usuario.
+* POST /api/user/register: Registers a new user.
+* POST /api/user/login: User logins.
+* GET /api/user/logout: User logouts
+* PUT /api/user/update: Updates user info.
+* DELETE /api/user/delete: Deletes user.
