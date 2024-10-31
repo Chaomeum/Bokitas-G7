@@ -11,15 +11,14 @@ To clone the repository, use the following command:
 git clone https://github.com/Chaomeum/Bokitas-G7.git
 
 To install the necessary dependencies with npm:
-1. cd Bokitas-G7
-2. npm install
+1. `cd Bokitas-G7`
+2. `npm install`
 
-To run the server:
-1. npm start
-Runs the server in production mode
+## Running the server:
+To run the server in production mode use: `npm start`
 
-2. npm run dev
-Runs the server in development mode
+To run the server in development mode use: `npm run dev`
+
 
 The server runs by default at http://localhost:3000
 
