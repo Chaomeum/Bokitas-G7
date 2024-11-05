@@ -20,10 +20,6 @@ const userSchema = new Schema({
     {
         timestamps: true
     }
-    // ,
-    // {
-    //     collection: 'usuarios'
-    // }
 );
 
 userSchema.pre('save', async function(next) {
