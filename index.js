@@ -20,6 +20,8 @@ app.use(cookieParser());
 
 app.use("/api/user", require("./server/routes/authRoute"));
 app.use("/api/product", require("./server/routes/productRoute"));
+app.use("/api/category", require("./server/routes/categoryRoute"));
+app.use("/api/post", require("./server/routes/postRoute"));
 
 app.use(notFound);
 app.use(errorHandler);

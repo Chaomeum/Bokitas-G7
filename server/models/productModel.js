@@ -66,7 +66,7 @@ const productSchema = new Schema(
     },
     categorias: [
       {
-        type: mongoose.Schema.Types.ObjectId,
+        type: String,
         ref: "Category",
       },
     ],

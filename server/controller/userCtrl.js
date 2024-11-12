@@ -14,7 +14,7 @@ const createUser = asyncHandler(async (req, res) => {
     const newUser = await user.create(req.body);
     res.status(201).json(newUser);
   } else {
-    throw new Error("User already exists");
+    throw new Error("El usuario ya existe");
   }
 });
 
@@ -46,7 +46,7 @@ const loginUser = asyncHandler(async (req, res) => {
     });
   } else {
     res.status(401);
-    throw new Error("Invalid email or password");
+    throw new Error("Email o contraseña incorrectos");
   }
 });
 
@@ -55,18 +55,18 @@ const handleRefreshToken = asyncHandler(async (req, res) => {
   const cookie = req.cookies;
   if (!cookie?.refreshToken) {
     res.status(401);
-    throw new Error("No refresh token found");
+    throw new Error("No se encontró el refresh token");
   }
   const refreshToken = cookie.refreshToken;
   const userWithToken = await user.findOne({ refreshToken });
   if (!userWithToken) {
     res.status(401);
-    throw new Error("1 Invalid refresh token");
+    throw new Error("No se encontró el usuario con el refresh token");
   }
   jwt.verify(refreshToken, process.env.JWT_SECRET, (err, decoded) => {
     if (err || userWithToken.id !== decoded.id) {
       res.status(401);
-      throw new Error("2 Invalid refresh token");
+      throw new Error("No se pudo verificar el refresh token");
     }
     const accessToken = generateToken(userWithToken?._id);
     res.json({ accessToken });
@@ -78,7 +78,7 @@ const logoutUser = asyncHandler(async (req, res) => {
   const cookie = req.cookies;
   if (!cookie?.refreshToken) {
     res.status(401);
-    throw new Error("No refresh token found");
+    throw new Error("No se encontró el refresh token");
   }
   const refreshToken = cookie.refreshToken;
   const userWithToken = await user.findOne({ refreshToken });
@@ -116,10 +116,10 @@ const updateUser = async (req, res) => {
     if (updatedUser) {
       res.json(updatedUser);
     } else {
-      res.status(404).json({ message: "User not found" });
+      res.status(404).json({ message: "Usuario no encontrado" });
     }
   } catch (error) {
-    console.error("Error updating user:", error);
+    console.error("Error al actualizar usuario:", error);
     res.status(500).json({ message: "Internal server error" });
   }
 };
@@ -133,7 +133,7 @@ const deleteUser = asyncHandler(async (req, res) => {
     res.json(deleteUser);
   } catch (error) {
     res.status(404);
-    throw new Error("User not found");
+    throw new Error("Usuario no encontrado");
   }
 });
 
@@ -157,7 +157,7 @@ const getUserById = asyncHandler(async (req, res) => {
     res.json(getUser);
   } catch (error) {
     res.status(404);
-    throw new Error("User not found");
+    throw new Error("Usuario no encontrado");
   }
 });
 
@@ -175,7 +175,7 @@ const blockUser = asyncHandler(async (req, res) => {
     res.json(blockUser);
   } catch (error) {
     res.status(404);
-    throw new Error("User not found");
+    throw new Error("Usuario no encontrado");
   }
 });
 
@@ -193,9 +193,25 @@ const unblockUser = asyncHandler(async (req, res) => {
     res.json(unblockUser);
   } catch (error) {
     res.status(404);
-    throw new Error("User not found");
+    throw new Error("Usuario no encontrado");
   }
 });
+
+const updatePassword = asyncHandler(async (req, res) => {
+  const { _id } = req.user;
+  const { oldPassword, newPassword } = req.body;
+  validateMongoDB(_id);
+  const findUser = await user.findById(_id);
+  if (findUser && (await findUser.matchPassword(oldPassword))) {
+    findUser.password = newPassword;
+    await findUser.save();
+    res.json({ message: "Contraseña actualizada correctamente" });
+  } else {
+    res.status(401);
+    throw new Error("Contraseña incorrecta");
+  }
+});
+
 
 // Export the functions
 module.exports = {
@@ -209,4 +225,5 @@ module.exports = {
   unblockUser,
   handleRefreshToken,
   logoutUser,
+  updatePassword,
 };
