@@ -1,9 +1,12 @@
 const user = require("../models/userModel");
+const Product = require("../models/productModel");
+const Cart = require("../models/cartModel");
 const asyncHandler = require("express-async-handler");
 const { generateToken } = require("../config/jwtToken");
 const { generateRefreshToken } = require("../config/refreshToken");
 const validateMongoDB = require("../utils/validateMongoDB");
 const jwt = require("jsonwebtoken");
+const { get } = require("mongoose");
 
 // Create a new user (Register)
 const createUser = asyncHandler(async (req, res) => {
@@ -212,6 +215,108 @@ const updatePassword = asyncHandler(async (req, res) => {
   }
 });
 
+const getWishlist = asyncHandler(async (req, res) => {
+  const { _id } = req.user;
+  validateMongoDB(_id);
+  try {
+    const findUser = await user.findById(_id).populate("wishList");
+    res.json(findUser);
+  } catch (error) {
+    res.status(404);
+    throw new Error("Usuario no encontrado");
+  }
+});
+
+const userCart = asyncHandler(async (req, res) => {
+  const { cart } = req.body;
+  const { _id } = req.user;
+  validateMongoDB(_id);
+  try {
+    let products = [];
+    const findUser = await user.findById(_id);
+    if (!findUser) {
+      res.status(404);
+      throw new Error("Usuario no encontrado");
+    }
+
+    // Revisar si el carrito ya existe
+    let userCart = await Cart.findOne({ user: findUser._id });
+    if (userCart) {
+      // Actualizar el carrito existente
+      userCart.cartItems = cart.map((item) => ({
+        cantidad: item.cantidad,
+        precio: item.precio,
+        producto: item._id,
+      }));
+    } else {
+      // Crear un nuevo carrito
+      userCart = new Cart({
+        user: findUser._id,
+        cartItems: cart.map((item) => ({
+          cantidad: item.cantidad,
+          precio: item.precio,
+          producto: item._id,
+        })),
+      });
+    }
+
+    // Calcular el total del carrito
+    userCart.cartTotal = userCart.cartItems.reduce(
+      (total, item) => total + item.precio * item.cantidad,
+      0
+    );
+
+    await userCart.save();
+    res.json({ message: "Carrito actualizado con éxito", cart: userCart });
+  } catch (error) {
+    res
+      .status(500)
+      .json({ message: "Error al agregar al carrito", error: error.message });
+  }
+});
+
+const getUserCart = asyncHandler(async (req, res) => {
+  const { _id } = req.user;
+  validateMongoDB(_id);
+  try {
+    const findUser = await user.findById(_id);
+    if (!findUser) {
+      res.status(404);
+      throw new Error("Usuario no encontrado");
+    }
+    const userCart = await Cart.findOne({ user: findUser._id }).populate(
+      "cartItems.producto"
+    );
+    res.json(userCart);
+  } catch (error) {
+    res.status(500);
+    throw new Error("Error al obtener el carrito");
+  }
+});
+
+const emptyCart = asyncHandler(async (req, res) => {
+  const { _id } = req.user;
+  validateMongoDB(_id);
+  try {
+    const findUser = await user.findById(_id);
+    if (!findUser) {
+      res.status(404);
+      throw new Error("Usuario no encontrado");
+    }
+
+    const userCart = await Cart.findOneAndDelete({ user: findUser._id });
+    if (!userCart) {
+      res.status(404);
+      throw new Error("Carrito no encontrado");
+    }
+
+    res.json({ message: "Carrito vaciado con éxito", cart: userCart });
+  } catch (error) {
+    res
+      .status(500)
+      .json({ message: "Error al vaciar el carrito", error: error.message });
+  }
+});
 
 // Export the functions
 module.exports = {
@@ -226,4 +331,8 @@ module.exports = {
   handleRefreshToken,
   logoutUser,
   updatePassword,
+  getWishlist,
+  userCart,
+  getUserCart,
+  emptyCart,
 };

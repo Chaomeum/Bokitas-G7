@@ -12,6 +12,10 @@ const {
   handleRefreshToken,
   logoutUser,
   updatePassword,
+  getWishlist,
+  userCart,
+  getUserCart,
+  emptyCart,
 } = require("../controller/userCtrl");
 
 const { authMiddleware, isAdmin } = require("../middlewares/authMiddleware");
@@ -21,6 +25,10 @@ router.post("/login", loginUser);
 router.get("/all-users", getAllUsers);
 router.get("/refresh-token", handleRefreshToken);
 router.get("/logout", logoutUser);
+router.post("/cart", authMiddleware, userCart);
+router.get("/cart", authMiddleware, getUserCart);
+router.delete("/empty-cart", authMiddleware, emptyCart);
+router.get("/wishlist", authMiddleware, getWishlist);
 router.get("/:id", authMiddleware, isAdmin, getUserById);
 router.delete("/:id", deleteUser);
 router.put("/edit-user", authMiddleware, updateUser);
