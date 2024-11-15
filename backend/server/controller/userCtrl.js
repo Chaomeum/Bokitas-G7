@@ -6,7 +6,6 @@ const { generateToken } = require("../config/jwtToken");
 const { generateRefreshToken } = require("../config/refreshToken");
 const validateMongoDB = require("../utils/validateMongoDB");
 const jwt = require("jsonwebtoken");
-const { get } = require("mongoose");
 
 // Create a new user (Register)
 const createUser = asyncHandler(async (req, res) => {

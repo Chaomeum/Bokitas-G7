@@ -1,38 +1,121 @@
-.App {
-  text-align: center;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+:root {
+  --color-C7FFDA: #c7ffda;
+  --color-FFD6BA: #ffd6ba;
+  --color-hover: #ffc14eef;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+body {
+  font-family: "Poppins", sans-serif;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+a {
+  text-decoration: none;
+  display: inline-block;
+}
+
+.img-logo {
+  width: 75px;
+  margin-right: 1rem;
+}
+
+.form-control:focus {
+  box-shadow: none;
+  border-color: var(--color-C7FFDA);
+}
+
+.g-10 {
+  gap: 10px;
+}
+
+.g-15 {
+  gap: 15px;
+}
+
+.g-25 {
+  gap: 25px;
+}
+
+.g-30 {
+  gap: 30px;
+}
+
+/* Header */
+.header-upper {
   display: flex;
-  flex-direction: column;
+  justify-content: space-between;
   align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  padding: 1rem 2rem;
+  background-color: var(--color-C7FFDA);
 }
 
-.App-link {
-  color: #61dafb;
+.header-upper .input-group-text {
+  background-color: var(--color-FFD6BA);
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.header-upper .input-group-text:hover {
+  background-color: var(--color-hover);
 }
+
+.header-upper .header-upper-links img {
+  width: 35px;
+  height: 35px;
+}
+
+.header-lower {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  background-color: var(--color-C7FFDA);
+  border-top: 1px solid #a3d9b0;
+}
+
+.header-lower .menu-links a,
+.header-lower .dropdown button {
+  color: black;
+  font-size: 14px;
+  line-height: 18px;
+  letter-spacing: 0.3;
+  text-transform: uppercase;
+}
+
+.header-lower .dropdown button:focus {
+  box-shadow: none;
+}
+
+.header-lower .dropdown img {
+  width: 30px;
+  height: 30px;
+}
+/* Fin Header */
+
+/* Footer */
+
+footer {
+  background-color: var(--color-C7FFDA);
+}
+
+footer:not(:first-child) {
+  border-top: 1px solid #a3d9b0;
+}
+
+footer img {
+  width: 35px;
+  height: 35px;
+}
+
+footer .input-group-text {
+  background-color: var(--color-FFD6BA);
+  padding: 8px 17px;
+}
+
+footer .input-group-text:hover {
+  background-color: var(--color-hover);
+}
+/* Fin Footer */
