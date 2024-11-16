@@ -330,11 +330,43 @@ a {
   margin-bottom: 15px;
   margin-top: 15px;
 }
+
+.filter-sort-grid {
+  padding: 10px;
+  background-color: white;
+  border-radius: 10px;
+}
+
+.products-list {
+  flex-wrap: wrap;
+  gap: 2rem 5rem;
+}
 /* Fin Products Page */
 
-/* About Page */
+/* Posts Page */
+.posts-list {
+  flex-wrap: wrap;
+  gap: 2rem 5rem;
+}
+/* Fin Posts Page */
 
-/* Fin About Page */
+/* Contact Page */
+.contact-wrapper .contact-details li {
+  padding-left: 1%;
+  list-style-type: none;
+}
+/* Fin Contact Page */
+
+/* Login and Register Page */
+.login-wrapper,
+.register-wrapper {
+  background-color: #f9f9f9;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+/* Fin Login and Register Page  */
 
 /* Footer */
 footer {

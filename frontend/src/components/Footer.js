@@ -50,16 +50,36 @@ const Footer = () => {
                   +51 987654321
                 </a>
                 <div className="social-icons d-flex align-items-center g-15">
-                  <a className="text-dark" href="">
+                  <a
+                    className="text-dark"
+                    href="https://www.youtube.com"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
                     <FaYoutube className="fs-4" />
                   </a>
-                  <a className="text-dark" href="">
+                  <a
+                    className="text-dark"
+                    href="https://www.linkedin.com"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
                     <FaLinkedin className="fs-4" />
                   </a>
-                  <a className="text-dark" href="">
+                  <a
+                    className="text-dark"
+                    href="https://github.com/Chaomeum/Bokitas-G7"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
                     <FaGithub className="fs-4" />
                   </a>
-                  <a className="text-dark" href="">
+                  <a
+                    className="text-dark"
+                    href="https://www.instagram.com"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
                     <FaInstagram className="fs-4" />
                   </a>
                 </div>

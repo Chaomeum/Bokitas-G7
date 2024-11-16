@@ -31,7 +31,10 @@ const Header = () => {
             <div className="col-5">
               <div className="header-upper-links d-flex align-items-center justify-content-between">
                 <div>
-                  <Link className="d-flex align-item-center g-10 text-dark">
+                  <Link
+                    to="/login"
+                    className="d-flex align-item-center g-10 text-dark"
+                  >
                     <img src="/images/user.svg" alt="cuenta" />
                     <p className="mb-0">
                       Iniciar <br /> Sesión
@@ -39,11 +42,14 @@ const Header = () => {
                   </Link>
                 </div>
                 <div>
-                  <Link className="d-flex align-item-center g-10 text-dark">
+                  <Link
+                    to="/wishlist"
+                    className="d-flex align-item-center g-10 text-dark"
+                  >
                     <img src="/images/wishlist.svg" alt="wishlist" />
                     <p className="mb-0">
                       Lista de <br />
-                      Regalos
+                      Deseos
                     </p>
                   </Link>
                 </div>

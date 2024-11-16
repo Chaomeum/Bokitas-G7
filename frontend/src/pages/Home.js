@@ -151,7 +151,7 @@ const Home = () => {
             <ProductCard />
           </div>
         </div>
-      </section>      
+      </section>
       <section className="post-wrapper home-wrapper-2 py-5">
         <div className="container-xxl">
           <div className="col-12">
