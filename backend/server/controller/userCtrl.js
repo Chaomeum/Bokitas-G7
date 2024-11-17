@@ -1,5 +1,4 @@
 const user = require("../models/userModel");
-const Product = require("../models/productModel");
 const Cart = require("../models/cartModel");
 const asyncHandler = require("express-async-handler");
 const { generateToken } = require("../config/jwtToken");
@@ -27,16 +26,20 @@ const loginUser = asyncHandler(async (req, res) => {
 
   if (findUser && (await findUser.matchPassword(password))) {
     // Generar token y refresh token
-    const refreshToken = await generateRefreshToken(findUser._id);
-    const updatedUser = await user.findByIdAndUpdate(
+    const refreshToken = generateRefreshToken(findUser._id);
+    await user.findByIdAndUpdate(
       findUser._id,
       { refreshToken: refreshToken },
       { new: true }
     );
+
     res.cookie("refreshToken", refreshToken, {
       httpOnly: true,
+      secure: process.env.NODE_ENV === "production", // Asegúrate de que sea seguro en producción
+      sameSite: "strict",
       maxAge: 72 * 60 * 60 * 1000, // 3 days
     });
+
     res.status(200).json({
       _id: findUser._id,
       nombre: findUser.nombre,
@@ -65,12 +68,12 @@ const handleRefreshToken = asyncHandler(async (req, res) => {
     res.status(401);
     throw new Error("No se encontró el usuario con el refresh token");
   }
-  jwt.verify(refreshToken, process.env.JWT_SECRET, (err, decoded) => {
-    if (err || userWithToken.id !== decoded.id) {
+  jwt.verify(refreshToken, process.env.JWT_REFRESH_SECRET, (err, decoded) => {
+    if (err || userWithToken._id.toString() !== decoded.id) {
       res.status(401);
       throw new Error("No se pudo verificar el refresh token");
     }
-    const accessToken = generateToken(userWithToken?._id);
+    const accessToken = generateToken(userWithToken._id);
     res.json({ accessToken });
   });
 });
@@ -87,16 +90,18 @@ const logoutUser = asyncHandler(async (req, res) => {
   if (!userWithToken) {
     res.clearCookie("refreshToken", {
       httpOnly: true,
-      secure: true,
+      secure: process.env.NODE_ENV === "production", // Asegúrate de que sea seguro en producción
+      sameSite: "strict",
     });
-    return res.sendStatus(204); // forbidden
+    return res.sendStatus(204); // No Content
   }
   await user.findOneAndUpdate({ refreshToken }, { refreshToken: "" });
   res.clearCookie("refreshToken", {
     httpOnly: true,
-    secure: true,
+    secure: process.env.NODE_ENV === "production", // Asegúrate de que sea seguro en producción
+    sameSite: "strict",
   });
-  res.sendStatus(204);
+  res.sendStatus(204); // No Content
 });
 
 // Update a user
