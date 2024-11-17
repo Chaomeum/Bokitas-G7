@@ -1,4 +1,8 @@
-FROM node:16
+FROM node:18
+RUN apt-get update && apt-get install -y \
+    build-essential \
+    python3 \
+    && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
 
@@ -7,7 +11,6 @@ COPY . .
 
 RUN npm install
 
-EXPOSE 5000
+EXPOSE 5001
 
-# Comando para ejecutar el servidor
 CMD ["npm", "run", "dev"]

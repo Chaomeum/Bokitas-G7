@@ -6,9 +6,8 @@ const morgan = require("morgan");
 const cors = require("cors");
 
 const express = require("express");
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 5001;
 const app = express();
-
 const connectDB = require("./server/config/db");
 const { notFound, errorHandler } = require("./server/middlewares/errorHandler");
 
