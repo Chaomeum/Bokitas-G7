@@ -54,7 +54,7 @@ const Header = () => {
                   </Link>
                 </div>
                 <div>
-                  <Link className="d-flex align-item-center g-10 text-dark">
+                  <Link to="/cart" className="d-flex align-item-center g-10 text-dark">
                     <img src="/images/cart.svg" alt="carrito" />
                     <div className="d-flex flex-column g-10">
                       <span className="badge bg-dark text-white">0</span>

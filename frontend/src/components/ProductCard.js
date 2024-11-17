@@ -6,7 +6,7 @@ const ProductCard = () => {
   const [rating, setRating] = useState(0);
   return (
     <div className="col-3">
-      <Link className="product-card position-relative">
+      <Link to="/products/:id" className="product-card position-relative">
         <div className="wishlist-icon position-absolute">
           <img src="images/fav.svg" alt="wishlist" />
         </div>

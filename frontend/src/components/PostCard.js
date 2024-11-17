@@ -17,7 +17,7 @@ const PostCard = () => {
             Quaerat aspernatur, deleniti eum consequatur accusamus similique
             odio sint, labore excepturi tenetur qui.
           </p>
-          <Link to="/" className="button">
+          <Link to="/posts/:id" className="button">
             Leer Mas
           </Link>
         </div>
