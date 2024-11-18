@@ -1,0 +1,38 @@
+version: '3.8'
+
+services:
+  bokitas_db:
+    image: mongo    
+    ports:
+      - "27019:27017"
+    networks:
+      - app-network
+    volumes:
+      - db-data:/data/db
+
+  aplicacion:
+    image: aplicacion    
+    restart: always    
+    ports:
+      - "5000:5000"
+    networks:
+      - app-network
+    depends_on:
+      - bokitas_db
+
+  presentacion:
+    image: presentacion
+    ports:
+      - "3000:80"
+    networks:
+      - app-network
+    depends_on:
+      - aplicacion
+
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  db-data:
+    driver: local

@@ -1,16 +1,20 @@
+# Usar una imagen base oficial de Node.js
 FROM node:18
-RUN apt-get update && apt-get install -y \
-    build-essential \
-    python3 \
-    && rm -rf /var/lib/apt/lists/*
 
+# Establecer el directorio de trabajo
 WORKDIR /app
 
+# Copiar solo los archivos necesarios para la instalación de dependencias
 COPY package*.json ./
-COPY . .
 
+# Instalar las dependencias de producción
 RUN npm install
 
-EXPOSE 5001
+# Copiar el resto del código de la aplicación
+COPY . .
 
-CMD ["npm", "run", "dev"]
+# Exponer el puerto que la aplicación utiliza
+EXPOSE 5000
+
+# Comando para iniciar la aplicación
+CMD ["npm", "start"]
