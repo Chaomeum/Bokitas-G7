@@ -1,8 +1,28 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Container from "../components/Container";
 import ProductCard from "../components/ProductCard";
+import api from "../utils/api";
 
 const Products = () => {
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const response = await api.get("/api/product"); // Llama al endpoint de tu backend
+        setProducts(response.data.data.products); // Guarda los productos en el estado
+        setLoading(false); // Cambia el estado de carga
+      } catch (err) {
+        setError(err.message || "Error al cargar los productos");
+        setLoading(false); // Cambia el estado de carga
+      }
+    };
+
+    fetchProducts();
+  }, []);
+
   return (
     <>
       <Container class1="products-wrapper home-wrapper-2 py-5">
@@ -95,9 +115,16 @@ const Products = () => {
               </div>
             </div>
             <div className="products-list d-flex pb-5">
-              <ProductCard />
-              <ProductCard />
-              <ProductCard />
+              {loading && <p>Cargando productos...</p>}
+              {error && <p className="text-danger">{error}</p>}
+              {!loading && !error && products.length === 0 && (
+                <p>No se encontraron productos.</p>
+              )}
+              {!loading &&
+                !error &&
+                products.map((product) => (
+                  <ProductCard key={product.id} product={product} />
+                ))}
             </div>
           </div>
         </div>

@@ -54,7 +54,11 @@ const Header = () => {
                         aria-expanded="false"
                       >
                         <img src="/images/user.svg" alt="cuenta" />
-                        <span>Hola, {user.nombre}</span>
+                        <span>
+                          Hola,
+                          <br />
+                          {user.nombre}
+                        </span>
                       </button>
                       <ul className="dropdown-menu">
                         <li>
@@ -68,7 +72,10 @@ const Header = () => {
                           </Link>
                         </li>
                         <li>
-                          <button className="dropdown-item" onClick={handleLogout}>
+                          <button
+                            className="dropdown-item"
+                            onClick={handleLogout}
+                          >
                             Cerrar Sesión
                           </button>
                         </li>
@@ -99,7 +106,10 @@ const Header = () => {
                   </Link>
                 </div>
                 <div>
-                  <Link to="/cart" className="d-flex align-item-center g-10 text-dark">
+                  <Link
+                    to="/cart"
+                    className="d-flex align-item-center g-10 text-dark"
+                  >
                     <img src="/images/cart.svg" alt="carrito" />
                     <div className="d-flex flex-column g-10">
                       <span className="badge bg-dark text-white">0</span>

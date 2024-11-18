@@ -153,9 +153,7 @@ const addToWishlist = asyncHandler(async (req, res) => {
 });
 
 const addReview = asyncHandler(async (req, res) => {
-  const { productId } = req.body;
-  const { _id: userId } = req.user; // Identificador del usuario actual
-  const { rating, comment } = req.body;
+  const { productId, user, email, rating, titulo, comment } = req.body; // Extraer campos enviados por el cliente
 
   try {
     const product = await Product.findById(productId);
@@ -165,32 +163,24 @@ const addReview = asyncHandler(async (req, res) => {
       return;
     }
 
-    // Verificar si el usuario ya ha hecho una reseña para este producto
-    const alreadyReviewed = product.reviews.find(
-      (review) => review.user.toString() === userId.toString()
-    );
-
-    if (alreadyReviewed) {
-      res
-        .status(400)
-        .json({ message: "Ya has dejado una reseña para este producto" });
-      return;
-    }
-
-    // Agregar la nueva reseña
+    // Crear la nueva reseña
     const newReview = {
-      user: userId,
-      rating,
-      comment,
+      user, // Nombre del usuario
+      email, // Correo del usuario
+      rating, // Calificación
+      titulo, // Título de la reseña
+      comment, // Comentario de la reseña
     };
+
     product.reviews.push(newReview);
 
-    // Actualizar rating promedio y número de reseñas
+    // Actualizar estadísticas del producto
     product.numero_reviews = product.reviews.length;
     product.rating_promedio =
       product.reviews.reduce((acc, review) => acc + review.rating, 0) /
       product.numero_reviews;
 
+    // Guardar los cambios
     await product.save();
 
     res.status(201).json({

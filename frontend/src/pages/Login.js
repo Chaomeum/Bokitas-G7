@@ -13,9 +13,9 @@ const Login = () => {
     e.preventDefault();
     try {
       const response = await api.post("/api/user/login", { email, password });
-      // Guardar token en localStorage o context
+      // Guarda el usuario y token en el localStorage
       localStorage.setItem("user", JSON.stringify(response.data));
-      console.log("Usuario autenticado:", response.data);
+      localStorage.setItem("token", response.data.token);    
       setError(""); // Limpia el mensaje de error
       navigate("/"); // Redirige al homepage o dashboard
     } catch (err) {

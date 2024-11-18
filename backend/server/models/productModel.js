@@ -3,9 +3,11 @@ const Schema = mongoose.Schema;
 
 // Schema para las reseñas
 const reviewSchema = new Schema({
-  user: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
+  user: { type: String, required: true }, // Nombre del usuario
+  email: { type: String }, // Correo del usuario
   rating: { type: Number, required: true, min: 1, max: 5 },
-  comment: { type: String, required: true },
+  titulo: { type: String }, // Título de la reseña
+  comment: { type: String, required: true }, // Comentario de la reseña
   postedAt: { type: Date, default: Date.now },
 });
 
