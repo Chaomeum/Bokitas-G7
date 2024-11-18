@@ -11,17 +11,20 @@ const Products = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await api.get("/api/product"); // Llama al endpoint de tu backend
-        setProducts(response.data.data.products); // Guarda los productos en el estado
-        setLoading(false); // Cambia el estado de carga
+        const response = await api.get("/api/product", {
+          withCredentials: true, // Include this if your backend requires credentials
+        });
+        setProducts(response.data.data.products); // Save products in state
       } catch (err) {
-        setError(err.message || "Error al cargar los productos");
-        setLoading(false); // Cambia el estado de carga
+        setError(err.response?.data?.message || "Error al cargar los productos");
+      } finally {
+        setLoading(false); // Ensure loading stops in both success and error cases
       }
     };
 
     fetchProducts();
-  }, []);
+  }, []); // Empty dependency array ensures this only runs on mount
+
 
   return (
     <>

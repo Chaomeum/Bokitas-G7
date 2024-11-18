@@ -6,7 +6,7 @@ const morgan = require("morgan");
 const cors = require("cors");
 
 const express = require("express");
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 5001;
 const app = express();
 const connectDB = require("./server/config/db");
 const { notFound, errorHandler } = require("./server/middlewares/errorHandler");
@@ -20,9 +20,9 @@ app.use(cookieParser());
 
 // Configuración de CORS
 const corsOptions = {
-  origin: "http://presentacion:3000", // Cambia según la URL de tu frontend
+  origin: "http://localhost:3000", // Cambia según la URL de tu frontend
   methods: ["GET", "POST", "PUT", "DELETE"],
-  credentials: true, // Si necesitas enviar cookies o headers de autenticación
+  //credentials: true, // Si necesitas enviar cookies o headers de autenticación
 };
 app.use(cors(corsOptions));
 
